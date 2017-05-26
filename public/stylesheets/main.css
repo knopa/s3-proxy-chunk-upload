@@ -1,0 +1,22 @@
+input {
+	width:250px;
+	float: right;
+}
+
+.form {
+	width: 370px;
+}
+
+.form div {
+	margin: 8px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table td {
+	border:1px dotted;
+	padding: 5px;
+	vertical-align: top;
+}

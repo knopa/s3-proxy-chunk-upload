@@ -1,0 +1,2 @@
+0 3      *  0 root /bin/find /s3proxychunkupload/upload -type f -mtime +7 -exec rm {} \;
+0 4      *  0 root /bin/find /s3proxychunkupload/upload -type d -empty -exec rmdir {} \;

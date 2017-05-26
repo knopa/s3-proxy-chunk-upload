@@ -1,0 +1,43 @@
+Description
+==================================================================
+
+The S3ProxyChunkUpload is application that allows you to upload files of any size to the Amazon S3 service.
+
+What is the problem:
+If you have a mobile application that allows your customers to keep files on the Amazon S3 service,
+ but your customers have a bad or unstable network connection, you will face the problem when you need repeatedly try to upload a file.
+
+Amazon S3 is supporting chuncked upload, but each part should has a size of 5 megabytes (MB) or more.
+ In most cases, the files sent via the mobile application are smaller, so for small files a different approach is needed.
+
+To solve this problem, we have developed the S3ProxyChunkUpload that is a proxy server between your application and the Amazon S3.
+The S3ProxyChunkUpload app allows you to upload a file consisting of any number and any size of parts,
+even if the user of your application has a low internet speed or there will be a loss of connection,
+it will be able to upload part of the file and uploading other parts of file when the connection will be restored.
+
+This application allows you to upload files in any size and any number of parts,
+if there is a loss of connection, you will need to upload only a part of the file instead repeat uploading whole file.
+
+After each upload of a part of the file, a response is sent with the result of the operation,
+so you can always monitor from your application the number of already uploaded parts of the files.
+After all the parts of the file are uploaded, all parts of the file will be combined to create the source file and sends the file to the Amazon S3.
+
+
+Also there are some additional features that will allow:
+- convert video  the uploaded to Amazon file (using the elastic transcoder service of Amazon).
+- convert the file to another format for example  mp3 to wav (using the elastic transcoder service of Amazon).
+- use mysql or postgres database 
+
+
+Configuration
+==================================================================
+
+This file will be packaged with your application, when using `activator dist`.
+
+db.default.driver=org.postgresql.Driver
+db.default.url="postgres://postgres:chunkupload@localhost/s3proxychunkupload"
+db.default.user=chunkupload
+db.default.pass=password
+
+built.sbt
+"org.postgresql" % "postgresql" % "9.3-1100-jdbc4"
