@@ -1,49 +1,81 @@
 # S3ProxyChunkUpload
 
-Microservice which allow to upload to s3 files with smaller chunks.
+A microservice that lets you upload S3 files in smaller chunks
 # Description
 
-If you have a mobile application that allows your customers to keep files on the Amazon S3 service,
- but your customers have a bad or unstable network connection, you will face the problem when you need repeatedly try to upload a file.
-
-Amazon S3 is supporting chuncked upload, but each part should has a size of 5 megabytes (MB) or more.
- In most cases, the files sent via the mobile application are smaller, so for small files a different approach is needed.
-
-To solve this problem, we have developed the S3ProxyChunkUpload that is a proxy server between your application and the Amazon S3.
+When your mobile application stores files on Amazon S3, 
+you can run into problems with repeatedly trying to upload files when your users have poor or unstable network connections. <br/>
+Amazon S3 supports chunked uploading, but each chunk must be 5 MB or more. <br/>
+In most cases, files sent via mobile apps are smaller than 5 MB, and so a different approach is needed.  <br/>
+To solve the problem of repeated attempts to upload a file to S3 storage, we have developed S3ProxyChunkUpload, 
+a proxy server that sits between your application and Amazon S3.
 
 # Features!
 
 
-  - Upload files in any size and any number of parts to Amazon S3
-  - Compress file the uploaded to Amazon file
-  - Convert the file to another format
+  - Upload files of any size in any number of chunks to Amazon S3 storage
+  - Compress uploaded files
+  - Convert files to different formats
 
 
-> S3ProxyChunkUpload that is a proxy server between your application and the Amazon S3
-> The S3ProxyChunkUpload app allows you to upload a file
-> consisting of any number and any size of parts,
-> even if the user of your application has a low internet speed
-> or there will be a loss of connection,
-> it will be able to upload part of the file and uploading other parts of file
-> when the connection will be restored.
+> The S3ProxyChunkUpload app allows you to upload a file in any number of chunks – 
+> and those chunks can be of any size.
+> By uploading in chunks, part of a file may be successfully uploaded
+> even if a user has a slow internet connection or the connection drops,
+> and other parts of the file can be sent when the connection is restored.
 
  
- After each upload of a part of the file, a response is sent with the result of the operation,
-so you can always monitor from your application the number of already uploaded parts of the files.
-After all the parts of the file are uploaded, all parts of the file will be combined to create the source file and sends the file to the Amazon S3.
+After each chunk of a file is successfully uploaded to the proxy server, 
+a response is sent by the proxy server to your app to keep tabs on the status of the upload. 
+After all chunks of a file are uploaded, they are combined on the proxy server to create a source file that is then sent to Amazon S3.
 
+
+### Installation
+---
+S3ProxyChunkUpload requires [PlayFramework](https://www.playframework.com/) v2.5.0+.
+
+Install the dependencies and start the server:
+
+```sh
+$ cd s3-proxy-chunk-upload
+$ activator run
+```
 
 ### Tech
 ---
 
-S3ProxyChunkUpload uses a number of open source projects to work properly:
+S3ProxyChunkUpload relies on a number of open source projects:
 
-* [PlayFramework] - lightweight, stateless, web-friendly architecture
-* [Postgresql] | [Mysql] -  open source database  
-* [SBT] - the interactive build tool.
+* [PlayFramework] – lightweight, stateless, web-friendly architecture
+* [Postgresql] | [Mysql] – open source database
+* [SBT] – interactive build tool
 
-And of course S3ProxyChunkUpload itself is open source with a [public repository][s3proxychunkupload]
+And of course, S3ProxyChunkUpload is open source itself, with a [public repository][s3proxychunkupload]
  on GitHub.
+
+   
+   ### Configurations (application.conf)
+   ---
+  - db.default.driver = org.postgresql.Driver
+  - db.default.url = "postgres://postgres:chunkupload@localhost/s3proxychunkupload"
+  - DB_TYPE = "postgres"
+  - AWS_ACCESS_KEY (access key for AWS)
+  - AWS_SECRET_KEY (secret key for AWS)
+  - AWS_S3_BUCKET = "com.s3proxy.posts" - bucket name
+  - AWS_S3_HOST  = "s3.amazonaws.com" (hostname)
+  - UPLOAD_FOLDER  = "/s3proxychunkupload/upload" (directory where temporary files will be located)
+  ##### Notifications
+ - SEND_UPLOAD_STATUS_URL  = ""
+ - SEND_CONVERT_STATUS_URL = "http://s3proxychunkupload.com/video/convert"
+  ##### Video conversion
+ - AWS_ET_END_POINT        = "elastictranscoder.us.amazonaws.com"
+ - VIDEO_PIPELINE_ID       = "0000000000000-xxxxxx"
+ - VIDEO_PRESETS           = {"stream" = "0000000000000-xxxxxx"} (to disable the conversion functionality, do not use this option)
+ 
+ 
+## License
+
+S3ProxyChunkUpload is open source software licensed under the terms of the MIT license.
 
 [//]: # (These are reference links used)
 
@@ -53,27 +85,4 @@ And of course S3ProxyChunkUpload itself is open source with a [public repository
    [Postgresql]: <https://www.postgresql.org/>
    [Mysql]: <https://www.mysql.com/>
    [SBT]: <http://www.scala-sbt.org/>
-   
-   ### Configurations (application.conf)
-   ---
-  - db.default.driver = org.postgresql.Driver
-  - db.default.url = "postgres://postgres:chunkupload@localhost/s3proxychunkupload"
-  - DB_TYPE = "postgres"
-  - AWS_ACCESS_KEY  - Access key to the AWS
-  - AWS_SECRET_KEY  - Secret key to the AWS
-  - AWS_S3_BUCKET = "com.s3proxy.posts" - bucket name
-  - AWS_S3_HOST  = "s3.amazonaws.com" - host name
-  - UPLOAD_FOLDER  = "/s3proxychunkupload/upload" - directory where temporary files will be located
-  ##### Notifications
- - SEND_UPLOAD_STATUS_URL  = ""
- - SEND_CONVERT_STATUS_URL = "http://s3proxychunkupload.com/video/convert"
-  ##### Video convertation
- - AWS_ET_END_POINT        = "elastictranscoder.us.amazonaws.com"
- - VIDEO_PIPELINE_ID       = "0000000000000-xxxxxx"
- - VIDEO_PRESETS           = {"stream" = "0000000000000-xxxxxx"} - to disable the conversion functionality, do not use this option
- 
- 
-## License
-
-S3ProxyChunkUpload is open source software, licensed under the terms of MIT license.
    
