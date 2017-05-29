@@ -1,0 +1,25 @@
+pgsql:
+  restart: always
+  build: .
+  dockerfile: Dockerfile
+  environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=chunkupload
+    - POSTGRES_DB=s3proxychunkupload
+  volumes:
+    - /db:/var/lib/postgresql
+
+skala:
+  image: ingensi/play-framework
+  tty: true
+  links: 
+    - pgsql
+  ports:
+    - "9000:9000"
+    - "9999:9999"
+    - "8888:8888"
+  environment:
+    - BACON_SECRET_KEY=test_key
+  volumes:
+    - .:/app:rw
+    
