@@ -32,9 +32,9 @@ After all chunks of a file are uploaded, they are combined on the proxy server t
 
 ### Installation
 ---
-S3ProxyChunkUpload requires [PlayFramework](https://www.playframework.com/) v2.5.0+ to run.
+S3ProxyChunkUpload requires [PlayFramework](https://www.playframework.com/) v2.5.0+.
 
-Install the dependencies and start the server.
+Install the dependencies and start the server:
 
 ```sh
 $ cd s3-proxy-chunk-upload
