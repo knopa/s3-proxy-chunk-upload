@@ -1,10 +1,8 @@
 # S3ProxyChunkUpload
 
-[![N|Solid](https://webinerds.com/app/uploads/2013/11/WN_white-green_274_45_for_site.png)](https://webinerds.com/)
-
 Microservice which allow to upload to s3 files with smaller chunks.
 # Description
----
+
 If you have a mobile application that allows your customers to keep files on the Amazon S3 service,
  but your customers have a bad or unstable network connection, you will face the problem when you need repeatedly try to upload a file.
 
@@ -14,7 +12,7 @@ Amazon S3 is supporting chuncked upload, but each part should has a size of 5 me
 To solve this problem, we have developed the S3ProxyChunkUpload that is a proxy server between your application and the Amazon S3.
 
 # Features!
----
+
 
   - Upload files in any size and any number of parts to Amazon S3
   - Compress file the uploaded to Amazon file
@@ -76,6 +74,6 @@ And of course S3ProxyChunkUpload itself is open source with a [public repository
  
  
 ## License
----
+
 S3ProxyChunkUpload is open source software, licensed under the terms of MIT license.
    
