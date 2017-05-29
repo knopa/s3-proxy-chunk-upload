@@ -4,9 +4,9 @@ A microservice that lets you upload S3 files in smaller chunks
 # Description
 
 When your mobile application stores files on Amazon S3, 
-you can run into problems with repeatedly trying to upload files when your users have poor or unstable network connections. 
-Amazon S3 supports chunked uploading, but each chunk must be 5 MB or more.
-In most cases, files sent via mobile apps are smaller than 5 MB, and so a different approach is needed. 
+you can run into problems with repeatedly trying to upload files when your users have poor or unstable network connections. <br/>
+Amazon S3 supports chunked uploading, but each chunk must be 5 MB or more. <br/>
+In most cases, files sent via mobile apps are smaller than 5 MB, and so a different approach is needed.  <br/>
 To solve the problem of repeated attempts to upload a file to S3 storage, we have developed S3ProxyChunkUpload, 
 a proxy server that sits between your application and Amazon S3.
 
